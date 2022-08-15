@@ -13,3 +13,5 @@
 
 <!-- App js -->
 <script src="{{ asset('admin/assets/js/app.js') }}"></script>
+
+@stack('page-specific-js')

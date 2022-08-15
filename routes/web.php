@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['prefix'=>'admin','middleware'  => 'auth'],function(){
 
     // Resource Routes
+    Route::resource('category', CategoryController::class);
+
 
     // Custom Routes
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
