@@ -2,8 +2,8 @@
 
 @push('page-specific-css')
 
-<!-- Plugins css -->
-<link href="{{ asset('admin/assets/libs/dropzone/min/dropzone.min.') }}'" rel="stylesheet" type="text/css" />
+<!-- image uploader -->
+<link rel="stylesheet" href="{{ asset('admin/assets/css/image-uploader.min.css') }}">
 
 @endpush
 
@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Form Layouts</h4>
+                        <h4 class="mb-sm-0 font-size-18">Create Category</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -36,72 +36,40 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title mb-4">Form Grid Layout</h4>
+                            <h4 class="card-title mb-4">Create Category</h4>
 
-                            <form>
+                            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="formrow-email-input" class="form-label">Category Name</label>
-                                            <input type="email" class="form-control" id="formrow-email-input" placeholder="Enter Your Email ID">
+                                            <label for="category-name-input" class="form-label">Category Name</label>
+                                            <input type="text" name="name" class="form-control" id="category-name-input" placeholder="Enter Category Name">
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Textarea</label>
+                                            <label class="form-label">Description</label>
                                             <div>
-                                                <textarea required="" class="form-control" rows="4"></textarea>
+                                                <textarea required="" name="description" class="form-control" rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <form action="#" class="dropzone dz-clickable">
-                                                
-                                            <div class="dz-message needsclick">
-                                                <div class="mb-3">
-                                                    <i class="display-4 text-muted bx bxs-cloud-upload"></i>
-                                                </div>
-                                                
-                                                <h4>Drop files here or click to upload.</h4>
-                                            </div>
-                                        </form>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Image</label>
+                                        <div class="image-upload"></div>
                                     </div>
-                                </div>
-
-                                {{-- <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="formrow-inputCity" class="form-label">City</label>
-                                            <input type="text" class="form-control" id="formrow-inputCity" placeholder="Enter Your Living City">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="formrow-inputState" class="form-label">State</label>
-                                            <select id="formrow-inputState" class="form-select">
-                                                <option selected>Choose...</option>
-                                                <option>...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="formrow-inputZip" class="form-label">Zip</label>
-                                            <input type="text" class="form-control" id="formrow-inputZip" placeholder="Enter Your Zip Code">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Status</label>
+                                        <div>
+                                            <input type="checkbox" name="status" id="status" switch="none">
+                                            <label for="status" data-on-label="On" data-off-label="Off"></label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                                        <label class="form-check-label" for="gridCheck">
-                                          Check me out
-                                        </label>
-                                    </div>
-                                </div> --}}
                                 <div>
                                     <button type="submit" class="btn btn-primary w-md">Submit</button>
+                                    <a href="{{ route('category.index') }}" class="ms-3 btn btn-light w-md">Cancel</a>
                                 </div>
                             </form>
                         </div>
@@ -135,8 +103,16 @@
 
 @push('page-specific-js')
 
-<!-- Plugins js -->
-<script src="{{ asset('admin/assets/libs/dropzone/min/dropzone.min.js') }}"></script>
+<!-- JAVASCRIPT -->
+<script src="{{ asset('admin/assets/js/image-uploader.min.js') }}"></script>
+
+<script>
+    $(function () {
+      $('.image-upload').imageUploader({
+        imagesInputName: 'image',
+      });
+      });
+</script>
 
 @endpush
 
