@@ -30,10 +30,10 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <h4 class="card-title">Vertical alignment</h4>
+                                <h4 class="card-title">Subcategory</h4>
                                 
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('category.create') }}" type="button" class="btn btn-primary btn-rounded waves-effect waves-light">Create Category</a>
+                                    <a href="{{ route('subcategory.create') }}" type="button" class="btn btn-primary btn-rounded waves-effect waves-light">Create Subcategory</a>
                                 </div>
                                 
                                 <div class="table-responsive">
@@ -44,18 +44,26 @@
                                                 <th>#</th>
                                                 <th>Image</th>
                                                 <th>Name</th>
+                                                <th>Parent Category</th>
                                                 <th>Description</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($category as $item)    
+                                            @foreach ($subcategory as $item)    
                                                 <tr>
                                                     <th scope="row">{{ $loop->index + 1 }}</th>
                                                     <td><img src="{{asset($item->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
-                                                    <td class="w-50">{{Str::limit($item->description, 150)}}</td>
+                                                    <td>
+                                                        @foreach ($category as $category)
+                                                            @if ($category->id == $item->category_id)
+                                                                {{ $category->name }}
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td class="w-25">{{Str::limit($item->description, 100)}}</td>
                                                     <td>
                                                         @if ($item->status == 1)
                                                             <span class="badge rounded-pill bg-success">Active</span>
@@ -64,10 +72,10 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('category.edit',$item->id) }}" type="button" class="btn btn-info btn-sm">Edit</a>
+                                                        <a href="{{ route('subcategory.edit',$item->id) }}" type="button" class="btn btn-info btn-sm">Edit</a>
                                                         <button type="button" class="btn btn-danger btn-sm" onclick="delete_check({{ $item->id }})">Delete</button>
                                                     </td>
-                                                    <form action="{{ route('category.destroy',$item->id)}}" id="deleteCheck_{{ $item->id }}" method="POST">
+                                                    <form action="{{ route('subcategory.destroy',$item->id)}}" id="deleteCheck_{{ $item->id }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>

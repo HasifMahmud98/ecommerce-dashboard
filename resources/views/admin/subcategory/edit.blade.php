@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Create Category</h4>
+                        <h4 class="mb-sm-0 font-size-18">Edit Category</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -38,20 +38,29 @@
                         <div class="card-body">
                             <h4 class="card-title mb-4">Edit Category</h4>
 
-                            <form action="{{ route('category.update',$category->id)  }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('subcategory.update',$subcategory->id)  }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="category-name-input" class="form-label">Category Name</label>
-                                            <input type="text" name="name" class="form-control" id="category-name-input" value="{{ $category->name }}" placeholder="Enter Category Name">
+                                            <label for="category-name-input" class="form-label">Subcategory Name</label>
+                                            <input type="text" name="name" class="form-control" id="category-name-input" value="{{ $subcategory->name }}" placeholder="Enter Category Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="category-name-input" class="form-label">Parent Category</label>
+                                            <select class="form-select" name="category_id">
+                                                <option>Select</option>
+                                                @foreach ($category as $item)    
+                                                    <option value="{{ $item->id }}" {{ $subcategory->category_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             <div>
-                                                <textarea required="" name="description" class="form-control" rows="3">{{ $category->description }}</textarea>
+                                                <textarea required="" name="description" class="form-control" rows="3">{{ $subcategory->description }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -61,12 +70,12 @@
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <label class="form-label">Current Image</label>
-                                        <img class="img-thumbnail" width="200" src="{{asset($category->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $category->name }}" data-holder-rendered="true">
+                                        <img class="img-thumbnail" width="200" src="{{asset($subcategory->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $subcategory->name }}" data-holder-rendered="true">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Status</label>
                                         <div>
-                                            <input type="checkbox" name="status" id="status" switch="none" {{ ($category->status == 1) ? 'checked' : " " }}>
+                                            <input type="checkbox" name="status" id="status" switch="none" {{ ($subcategory->status == 1) ? 'checked' : " " }}>
                                             <label for="status" data-on-label="On" data-off-label="Off"></label>
                                         </div>
                                     </div>
@@ -74,7 +83,7 @@
 
                                 <div>
                                     <button type="submit" class="btn btn-primary w-md">Submit</button>
-                                    <a href="{{ route('category.index') }}" class="ms-3 btn btn-light w-md">Cancel</a>
+                                    <a href="{{ route('subcategory.index') }}" class="ms-3 btn btn-light w-md">Cancel</a>
                                 </div>
                             </form>
                         </div>

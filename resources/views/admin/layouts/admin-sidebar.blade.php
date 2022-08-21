@@ -22,9 +22,9 @@
                         <span key="t-ecommerce">Ecommerce</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="ecommerce-products.html" key="t-products">Products</a></li>
+                        <li><a href="{{ route('product.index') }}" key="t-products">Products</a></li>
                         <li><a href="{{ route('category.index') }}" key="t-product-detail">Category</a></li>
-                        <li><a href="ecommerce-orders.html" key="t-orders">Sub Category</a></li>
+                        <li><a href="{{ route('subcategory.index') }}" key="t-orders">Subcategory</a></li>
                         <li><a href="ecommerce-customers.html" key="t-customers">Customers</a></li>
                     </ul>
                 </li>

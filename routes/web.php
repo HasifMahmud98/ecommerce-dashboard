@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +31,14 @@ Route::group(['prefix'=>'admin','middleware'  => 'auth'],function(){
 
     // Resource Routes
     Route::resource('category', CategoryController::class);
+    Route::resource('subcategory', SubcategoryController::class);
+    Route::resource('product', ProductController::class);
+    
 
 
     // Custom Routes
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/get-subcategory/{id}', [ProductController::class, 'getSubcategory']);
 
 
 });

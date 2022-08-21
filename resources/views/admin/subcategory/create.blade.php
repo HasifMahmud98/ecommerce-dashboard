@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Create Category</h4>
+                        <h4 class="mb-sm-0 font-size-18">Create Subategory</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -36,37 +36,41 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title mb-4">Edit Category</h4>
+                            <h4 class="card-title mb-4">Create Subategory</h4>
 
-                            <form action="{{ route('category.update',$category->id)  }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('subcategory.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="category-name-input" class="form-label">Category Name</label>
-                                            <input type="text" name="name" class="form-control" id="category-name-input" value="{{ $category->name }}" placeholder="Enter Category Name">
+                                            <input type="text" name="name" class="form-control" id="category-name-input" placeholder="Enter Subcategory Name">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="category-name-input" class="form-label">Parent Category</label>
+                                            <select class="form-select" name="category_id">
+                                                <option>Select</option>
+                                                @foreach ($category as $item)    
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             <div>
-                                                <textarea required="" name="description" class="form-control" rows="3">{{ $category->description }}</textarea>
+                                                <textarea required="" name="description" class="form-control" rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label class="form-label">Image</label>
                                         <div class="image-upload"></div>
-                                    </div>
-                                    <div class="col-md-2 mb-3">
-                                        <label class="form-label">Current Image</label>
-                                        <img class="img-thumbnail" width="200" src="{{asset($category->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $category->name }}" data-holder-rendered="true">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Status</label>
                                         <div>
-                                            <input type="checkbox" name="status" id="status" switch="none" {{ ($category->status == 1) ? 'checked' : " " }}>
+                                            <input type="checkbox" name="status" id="status" switch="none">
                                             <label for="status" data-on-label="On" data-off-label="Off"></label>
                                         </div>
                                     </div>
