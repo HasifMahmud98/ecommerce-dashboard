@@ -27,7 +27,10 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::get();
-        return view('admin.product.index',compact('product'));
+        $subcategories = Subcategory::get();
+        $product_subcategory = ProductSubcategory::get();
+        
+        return view('admin.product.index', compact('product', 'subcategories', 'product_subcategory'));
     }
     
     public function create()
@@ -41,8 +44,13 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $category = Category::get();
+        $subcategory = Subcategory::get();
+        $selected_subcategory = ProductSubcategory::where('product_id', $id)->get();        
+        $product_image = ProductImage::where('product_id', $id)->get();
+        // dd($selected_subcategory[0]->subcategory->category->name);
 
-        return view('admin.product.edit',compact('product'));
+        return view('admin.product.edit',compact('product', 'category', 'selected_subcategory', 'subcategory', 'product_image'));
     }
 
     public function getSubcategory($id)
@@ -55,7 +63,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // dd($this->productImage);
         try {
 
             DB::beginTransaction();
@@ -92,14 +99,11 @@ class ProductController extends Controller
             ]);
 
             // Upload Image
-            $thumbbail = $this->UploadWebp($request->thumbnail[0], $product, 'thumbnail', 'uploads/product', 940 , 705);
+            $this->UploadWebp($request->thumbnail[0], $product, 'thumbnail', 'uploads/product', 940 , 705);
 
             $this->UploadMultipleWebp($request->image, $this->image, 'product_id', $product->id, 'image', 'uploads/product', 968 , 645);
-
-            $subcategories = explode(',', $request->subcategory_id);
             
-            foreach ($subcategories as $key => $item) {
-                // dd($item);
+            foreach ($request->subcategory_id as $key => $item) {
                 ProductSubcategory::create([
 
                     'Product_id'        => $product->id,
@@ -119,41 +123,71 @@ class ProductController extends Controller
         
     }
 
-    // public function update(Request $request,$id)
-    // {
-    //     try {
+    public function update(Request $request,$id)
+    {
+        try {
 
-    //         DB::beginTransaction();
+            DB::beginTransaction();
 
-    //         $category = Category::find($id);
+            $product = Product::find($id);
 
-    //         if($category->status == "on") {
-    //             $status = 1;
-    //         } else {
-    //             $status = 0;
-    //         }
+            if($request->status == "on") {
+                $status = 1;
+            } else {
+                $status = 0;
+            }
+
+            if($request->featured == "on") {
+                $featured = 1;
+            } else {
+                $featured = 0;
+            }
             
-    //         $category->update([
+            $discount_start = Carbon::parse($request->discount_start)->format('Y-m-d H:i:s');
+            $discount_end = Carbon::parse($request->discount_end)->format('Y-m-d H:i:s');
 
-    //             'name'          => $request->name,
-    //             'description'   => $request->description,
-    //             'status'        => $status,
+            $product->update([
 
-    //         ]);
+                'name'              => $request->name,
+                'price'             => $request->price,
+                'discount'          => $request->discount,
+                'discount_start'    => $discount_start,
+                'discount_end'      => $discount_end,
+                'summary'           => $request->summary,
+                'description'       => $request->description,
+                'status'            => $status,
+                'featured'          => $featured,
+                'meta_title'        => $request->meta_title,
+                'meta_description'  => $request->meta_description,
+                'meta_keywords'     => $request->meta_keywords,
+            ]);
 
-    //         // Upload Image
-    //         $this->UploadWebp($request->image[0] ?? null, $category, 'image', 'uploads/category', 940 , 705);
+            // Upload Image
+            $this->UploadWebp($request->thumbnail[0], $product, 'thumbnail', 'uploads/product', 940 , 705);
+
+            $this->UploadMultipleWebp($request->image, $this->image, 'product_id', $product->id, 'image', 'uploads/product', 968 , 645);
+
+            $subcategories = explode(',', $request->subcategory_id);
             
-    //         DB::commit();
-    //         return redirect()->route('category.index')->withMessage('Category Save Succesfully');
+            // foreach ($subcategories as $key => $item) {
+            //     ProductSubcategory::create([
+
+            //         'Product_id'        => $product->id,
+            //         'subcategory_id'    => $item
+
+            //     ]);
+            // }
+            
+            DB::commit();
+            return redirect()->route('category.index')->withMessage('Category Save Succesfully');
 
 
-    //     } catch (\Throwable $th) {
-    //         dd($th);
-    //         DB::rollback();
-    //         return redirect()->back()->withError('Something went wrong! Please try again.');
-    //     }
-    // }
+        } catch (\Throwable $th) {
+            dd($th);
+            DB::rollback();
+            return redirect()->back()->withError('Something went wrong! Please try again.');
+        }
+    }
 
 
     // public function destroy($id)

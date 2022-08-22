@@ -79,8 +79,8 @@
                                                     <div class="mb-3">
                                                         <label for="product-name-input"
                                                             class="form-label">Subcategory</label>
-                                                        <select class="form-select" name="subcategory_id">
-                                                            <option>Select</option>
+                                                        <select class="select2 form-control select2-multiple"
+                                                            multiple="multiple" name="subcategory_id[]" data-placeholder="Choose ...">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -148,7 +148,7 @@
 
                                             <div class="mb-3">
                                                 <label for="product-name-input" class="form-label">Meta Title</label>
-                                                <input type="text" name="meta-title" class="form-control"
+                                                <input type="text" name="meta_title" class="form-control"
                                                     id="product-name-input" placeholder="Enter meta title">
                                             </div>
 
@@ -257,10 +257,10 @@
                         dataType: "json",
                         success: function(data) {
                             console.log(data);
-                            $('select[name="subcategory_id"]').empty();
-                            $('select[name="subcategory_id"]').append('<option value="">Select</option>');
+                            $('select[name="subcategory_id[]"]').empty();
+                            $('select[name="subcategory_id[]"]').append('<option value="">Select</option>');
                             $.each(data, function (key, value) {
-                                $('select[name="subcategory_id"]').append('<option value=" ' + value.id + '">' + value.name + '</option>');
+                                $('select[name="subcategory_id[]"]').append('<option value=" ' + value.id + '">' + value.name + '</option>');
                             })
                         }
 

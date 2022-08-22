@@ -44,26 +44,31 @@
                                                 <th>#</th>
                                                 <th>Image</th>
                                                 <th>Name</th>
+                                                <th>Price</th>
                                                 <th>Parent Category</th>
-                                                <th>Description</th>
+                                                <th>summary</th>
                                                 <th>Status</th>
+                                                <th>Featured</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($subcategory as $item)    
+                                            @foreach ($product as $item)    
                                                 <tr>
                                                     <th scope="row">{{ $loop->index + 1 }}</th>
-                                                    <td><img src="{{asset($item->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
+                                                    <td><img src="{{asset($item->thumbnail ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
+                                                    <td><b>৳ {{ $item->price }}</b></td>
                                                     <td>
-                                                        @foreach ($category as $category)
-                                                            @if ($category->id == $item->category_id)
-                                                                {{ $category->name }}
-                                                            @endif
+                                                        @foreach ($subcategories as $category)
+                                                            @foreach ($product_subcategory as $i)
+                                                                @if ($i->product_id == $item->id && $i->subcategory_id == $category->id)
+                                                                    <span class="badge-xl rounded-pill badge-soft-primary">{{ $category->name }}</span>
+                                                                @endif
+                                                            @endforeach
                                                         @endforeach
                                                     </td>
-                                                    <td class="w-25">{{Str::limit($item->description, 100)}}</td>
+                                                    <td class="w-25">{{Str::limit($item->summary, 100)}}</td>
                                                     <td>
                                                         @if ($item->status == 1)
                                                             <span class="badge rounded-pill bg-success">Active</span>
@@ -72,7 +77,14 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ route('subcategory.edit',$item->id) }}" type="button" class="btn btn-info btn-sm">Edit</a>
+                                                        @if ($item->featured == 1)
+                                                            <span class="badge rounded-pill bg-success">Active</span>
+                                                        @elseif ($item->featured == 0)
+                                                            <span class="badge rounded-pill bg-danger">Inactive</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('product.edit',$item->id) }}" type="button" class="btn btn-info btn-sm">Edit</a>
                                                         <button type="button" class="btn btn-danger btn-sm" onclick="delete_check({{ $item->id }})">Delete</button>
                                                     </td>
                                                     <form action="{{ route('subcategory.destroy',$item->id)}}" id="deleteCheck_{{ $item->id }}" method="POST">
@@ -80,7 +92,7 @@
                                                         @method('DELETE')
                                                     </form>
                                                 </tr>
-                                            @endforeach --}}
+                                            @endforeach
                                         </tbody>
 
                                     </table>
