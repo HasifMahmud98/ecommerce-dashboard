@@ -45,7 +45,7 @@
                                                 <th>Image</th>
                                                 <th>Name</th>
                                                 <th>Price</th>
-                                                <th>Parent Category</th>
+                                                <th>Category</th>
                                                 <th>summary</th>
                                                 <th>Status</th>
                                                 <th>Featured</th>
@@ -58,7 +58,15 @@
                                                     <th scope="row">{{ $loop->index + 1 }}</th>
                                                     <td><img src="{{asset($item->thumbnail ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
-                                                    <td><b>৳ {{ $item->price }}</b></td>
+                                                    <td>
+                                                        <b>৳ {{ $item->price }}</b>
+                                                        @if ($item->discount)
+                                                            <span class="text-muted me-2 ms-2"><del>৳ {{ $item->discount }}</del></span>
+                                                            <span>
+                                                                ( <span class="clock" data-countdown="{{ $item->discount_end }}"></span> )
+                                                            </span>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @foreach ($subcategories as $category)
                                                             @foreach ($product_subcategory as $i)
@@ -146,6 +154,18 @@
         })
 
     }
+</script>
+
+<!-- Sweet alert init js-->
+<script src="{{ asset('admin/assets/js/jquery.countdown.js') }}"></script>
+
+<script type="text/javascript">
+    $('[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            $this.html(event.strftime('%D days %H:%M:%S'));
+        });
+    });
 </script>
 
 @endpush

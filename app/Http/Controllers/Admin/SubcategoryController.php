@@ -20,6 +20,7 @@ class SubcategoryController extends Controller
         $subcategory = Subcategory::get();
         $category = Category::get();
         
+        // dd($category);
         return view('admin.subcategory.index',compact('subcategory', 'category'));
     }
 

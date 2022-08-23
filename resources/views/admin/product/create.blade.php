@@ -63,7 +63,7 @@
                                                     id="product-name-input" placeholder="Enter product Name">
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                {{-- <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label for="product-name-input" class="form-label">Category</label>
                                                         <select class="form-select" name="category">
@@ -74,13 +74,16 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
+                                                </div> --}}
+                                                <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label for="product-name-input"
                                                             class="form-label">Subcategory</label>
                                                         <select class="select2 form-control select2-multiple"
                                                             multiple="multiple" name="subcategory_id[]" data-placeholder="Choose ...">
+                                                            @foreach ($subcategory as $item)
+                                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -245,8 +248,8 @@
 
     <script src="{{ asset('admin/assets/js/app.js') }}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript">
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
+    {{-- <script type="text/javascript">
         $("document").ready(function() {
             $('select[name="category"]').on('change', function() {
                 var catId = $(this).val();
@@ -273,7 +276,7 @@
 
 
         });
-    </script>
+    </script> --}}
 
     <script src="{{ asset('admin/assets/js/image-uploader.min.js') }}"></script>
 

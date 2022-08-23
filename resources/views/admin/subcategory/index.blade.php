@@ -57,9 +57,9 @@
                                                     <td><img src="{{asset($item->image ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>
-                                                        @foreach ($category as $category)
-                                                            @if ($category->id == $item->category_id)
-                                                                {{ $category->name }}
+                                                        @foreach ($category as $i)
+                                                            @if ($i->id == $item->category_id)
+                                                                {{ $i->name }}
                                                             @endif
                                                         @endforeach
                                                     </td>

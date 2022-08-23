@@ -70,7 +70,7 @@
                                                     value="{{ $product->name }}">
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                {{-- <div class="col-md-6">
                                                     <div class="mb-3">
                                                         <label for="product-name-input" class="form-label">Category</label>
                                                         <select class="form-select" name="category">
@@ -81,23 +81,19 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
+                                                </div> --}}
+                                                <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label for="product-name-input"
                                                             class="form-label">Subcategory</label>
                                                         <select class="select2 form-control select2-multiple"
-                                                            multiple="multiple" name="subcategory_id[]" data-placeholder="Choose ..." multiple data-md-select2>
-                                                            {{-- @foreach ($subcategory as $item)
-                                                                @foreach ($selected_subcategory as $i)
-                                                                    @if ($item->id == $i->subcategory_id)
-                                                                        <option value="{{ $item->id }}"
-                                                                            selected>{{ $item->name }}</option>
-                                                                    @else
-                                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                                    @endif                                                                    
-                                                                @endforeach
-                                                            @endforeach --}}
+                                                            multiple="multiple" name="subcategory_id[]"
+                                                            data-placeholder="Choose ...">
+                                                            @foreach ($subcategory as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    @foreach ($selected_subcategory as $i) {{ $i->subcategory_id == $item->id ? 'selected' : '' }} @endforeach>
+                                                                    {{ $item->name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -123,8 +119,8 @@
                                                             value="{{ \Carbon\Carbon::parse($product->discount_start)->format('d M, Y') }}"
                                                             name="discount_start" placeholder="Start Date" />
                                                         <input type="text" class="form-control"
-                                                            value="{{ \Carbon\Carbon::parse($product->discount_end)->format('d M, Y') }}" name="discount_end"
-                                                            placeholder="End Date" />
+                                                            value="{{ \Carbon\Carbon::parse($product->discount_end)->format('d M, Y') }}"
+                                                            name="discount_end" placeholder="End Date" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -145,8 +141,7 @@
                                                     <label class="form-label">Status</label>
                                                     <div>
                                                         <input type="checkbox" name="status" id="status"
-                                                            switch="none"
-                                                            {{ $product->status == 1 ? 'checked' : ' ' }}>
+                                                            switch="none" {{ $product->status == 1 ? 'checked' : ' ' }}>
                                                         <label for="status" data-on-label="On"
                                                             data-off-label="Off"></label>
                                                     </div>
@@ -201,7 +196,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            
+
                                             <h4 class="card-title my-4">SEO</h4>
 
                                             <div class="mb-3">
@@ -307,7 +302,7 @@
 
     <script src="{{ asset('admin/assets/js/app.js') }}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
         $("document").ready(function() {
             var selected_subcategory = {!! json_encode($selected_subcategory) !!};
@@ -377,7 +372,7 @@
 
 
         });
-    </script>
+    </script> --}}
 
     <script src="{{ asset('admin/assets/js/image-uploader.min.js') }}"></script>
 

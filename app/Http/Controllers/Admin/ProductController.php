@@ -44,13 +44,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        $category = Category::get();
         $subcategory = Subcategory::get();
         $selected_subcategory = ProductSubcategory::where('product_id', $id)->get();        
         $product_image = ProductImage::where('product_id', $id)->get();
-        // dd($selected_subcategory[0]->subcategory->category->name);
 
-        return view('admin.product.edit',compact('product', 'category', 'selected_subcategory', 'subcategory', 'product_image'));
+        return view('admin.product.edit',compact('product', 'selected_subcategory', 'subcategory', 'product_image'));
     }
 
     public function getSubcategory($id)
@@ -131,20 +129,42 @@ class ProductController extends Controller
 
             $product = Product::find($id);
 
-            if($request->status == "on") {
-                $status = 1;
-            } else {
-                $status = 0;
+            // dd($product);
+
+            if ($request->status) {
+                if($request->status == "on") {
+                    $status = 1;
+                } else {
+                    $status = 0;
+                }
+            }
+            else {
+                $status = $product->status;
             }
 
-            if($request->featured == "on") {
-                $featured = 1;
-            } else {
-                $featured = 0;
+            if ($request->status) {
+                if($request->featured == "on") {
+                    $featured = 1;
+                } else {
+                    $featured = 0;
+                }
+            }
+            else {
+                $featured = $product->featured;
             }
             
-            $discount_start = Carbon::parse($request->discount_start)->format('Y-m-d H:i:s');
-            $discount_end = Carbon::parse($request->discount_end)->format('Y-m-d H:i:s');
+            if ($request->discount_start) {
+                $discount_start = Carbon::parse($request->discount_start)->format('Y-m-d H:i:s');
+            }
+            else {
+                $discount_start = Carbon::parse($product->discount_start)->format('Y-m-d H:i:s');
+            }
+            if($request->discount_end){
+                $discount_end = Carbon::parse($request->discount_end)->format('Y-m-d H:i:s');
+            }
+            else {
+                $discount_start = Carbon::parse($product->discount_end)->format('Y-m-d H:i:s');
+            }
 
             $product->update([
 
@@ -163,23 +183,29 @@ class ProductController extends Controller
             ]);
 
             // Upload Image
-            $this->UploadWebp($request->thumbnail[0], $product, 'thumbnail', 'uploads/product', 940 , 705);
+            $this->UploadWebp($request->thumbnail[0] ?? "", $product, 'thumbnail', 'uploads/product', 940 , 705);
 
-            $this->UploadMultipleWebp($request->image, $this->image, 'product_id', $product->id, 'image', 'uploads/product', 968 , 645);
+            $this->UploadMultipleWebp($request->image ?? "", $this->image, 'product_id', $product->id, 'image', 'uploads/product', 968 , 645);
 
-            $subcategories = explode(',', $request->subcategory_id);
+            // $subcategories = explode(',', $request->subcategory_id);
             
-            // foreach ($subcategories as $key => $item) {
-            //     ProductSubcategory::create([
-
-            //         'Product_id'        => $product->id,
-            //         'subcategory_id'    => $item
-
-            //     ]);
-            // }
+            if($request->subcategory_id) {
+                $get_existing = $product->ProductSubcategorys;
+                $get_existing->each->delete();
+                
+                
+                foreach ($request->subcategory_id as $key => $item) {
+                    ProductSubcategory::create([
+    
+                        'Product_id'        => $product->id,
+                        'subcategory_id'    => $item
+    
+                    ]);
+                }
+            }
             
             DB::commit();
-            return redirect()->route('category.index')->withMessage('Category Save Succesfully');
+            return redirect()->route('product.index')->withMessage('Category Save Succesfully');
 
 
         } catch (\Throwable $th) {
@@ -190,15 +216,15 @@ class ProductController extends Controller
     }
 
 
-    // public function destroy($id)
-    // {
-    //     try {
+    public function destroy($id)
+    {
+        try {
 
-    //         $category = Category::find($id)->delete();
-    //         return redirect()->route('category.index')->withMessage('Category Delete Succesfully');
-    //     } catch (\Throwable $th) {
+            $product = Product::find($id)->delete();
+            return redirect()->route('category.index')->withMessage('Category Delete Succesfully');
+        } catch (\Throwable $th) {
 
-    //         return redirect()->back()->withError('Something went wrong! Please try again.');
-    //     }
-    // }
+            return redirect()->back()->withError('Something went wrong! Please try again.');
+        }
+    }
 }
