@@ -67,7 +67,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategory.index')->withMessage('Subcategory Save Succesfully');
 
         } catch (\Throwable $th) {
-            
+            dd($th);
             DB::rollback();
             return redirect()->back()->withError('Something went wrong! Please try again.');
         }

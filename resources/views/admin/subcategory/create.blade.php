@@ -50,7 +50,7 @@
                                         <div class="mb-3">
                                             <label for="category-name-input" class="form-label">Parent Category</label>
                                             <select class="form-select" name="category_id">
-                                                <option>Select</option>
+                                                <option value="">Select</option>
                                                 @foreach ($category as $item)    
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach

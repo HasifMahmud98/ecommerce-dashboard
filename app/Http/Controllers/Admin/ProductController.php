@@ -207,7 +207,6 @@ class ProductController extends Controller
             DB::commit();
             return redirect()->route('product.index')->withMessage('Category Save Succesfully');
 
-
         } catch (\Throwable $th) {
             dd($th);
             DB::rollback();
@@ -220,10 +219,26 @@ class ProductController extends Controller
     {
         try {
 
-            $product = Product::find($id)->delete();
-            return redirect()->route('category.index')->withMessage('Category Delete Succesfully');
-        } catch (\Throwable $th) {
+            $product = Product::find($id);
+            $product_image = $product->ProductImages;
 
+            // if ($product_image) {
+            //     foreach ($product_image as $key => $item) {
+
+            //         if (file_exists($item->image)) {
+            //             unlink($item->image);
+            //         }
+            //     }     
+                
+            // }
+
+            $product_image->each->delete();
+            
+            $product->delete();
+            
+        return redirect()->route('product.index')->withMessage('Product Delete Succesfully');
+        } catch (\Throwable $th) {
+            dd($th);
             return redirect()->back()->withError('Something went wrong! Please try again.');
         }
     }

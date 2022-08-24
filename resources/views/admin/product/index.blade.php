@@ -95,7 +95,7 @@
                                                         <a href="{{ route('product.edit',$item->id) }}" type="button" class="btn btn-info btn-sm">Edit</a>
                                                         <button type="button" class="btn btn-danger btn-sm" onclick="delete_check({{ $item->id }})">Delete</button>
                                                     </td>
-                                                    <form action="{{ route('subcategory.destroy',$item->id)}}" id="deleteCheck_{{ $item->id }}" method="POST">
+                                                    <form action="{{ route('product.destroy',$item->id)}}" id="deleteCheck_{{ $item->id }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -163,7 +163,7 @@
     $('[data-countdown]').each(function() {
         var $this = $(this), finalDate = $(this).data('countdown');
         $this.countdown(finalDate, function(event) {
-            $this.html(event.strftime('%D days %H:%M:%S'));
+            $this.html(event.strftime('%D days %H:%M'));
         });
     });
 </script>
