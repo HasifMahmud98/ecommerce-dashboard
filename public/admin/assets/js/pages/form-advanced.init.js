@@ -99,11 +99,10 @@
             var a = s.extend({}, i, s(t).data());
             s(t).TouchSpin(a)
         }), s("input[name='price']").TouchSpin({
-            initval: 100,
+            // initval: 0,
             buttondown_class: "btn btn-primary",
             buttonup_class: "btn btn-primary"
         }),s("input[name='discount']").TouchSpin({
-            initval: 100,
             buttondown_class: "btn btn-primary",
             buttonup_class: "btn btn-primary"
         }), s("input[name='demo3_22']").TouchSpin({

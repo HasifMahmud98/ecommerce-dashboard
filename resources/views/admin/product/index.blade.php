@@ -59,12 +59,15 @@
                                                     <td><img src="{{asset($item->thumbnail ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>
-                                                        <b>৳ {{ $item->price }}</b>
+                                                        
                                                         @if ($item->discount)
-                                                            <span class="text-muted me-2 ms-2"><del>৳ {{ $item->discount }}</del></span>
+                                                            <b>৳ {{ $item->discount }}</b>
+                                                            <span class="text-muted me-2 ms-2"><del>৳ {{ $item->price }}</del></span>
                                                             <span>
                                                                 ( <span class="clock" data-countdown="{{ $item->discount_end }}"></span> )
                                                             </span>
+                                                        @else
+                                                        <b>৳ {{ $item->price }}</b>
                                                         @endif
                                                     </td>
                                                     <td>
