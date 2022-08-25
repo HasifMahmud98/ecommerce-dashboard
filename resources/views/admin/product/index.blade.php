@@ -56,7 +56,7 @@
                                             @foreach ($product as $item)    
                                                 <tr>
                                                     <th scope="row">{{ $loop->index + 1 }}</th>
-                                                    <td><img src="{{asset($item->thumbnail ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
+                                                    <td><img src="{{ asset($item->thumbnail ?? 'admin/assets/images/empty.png') }}" alt="{{ $item->name }}" class="rounded avatar-sm"></td>
                                                     <td>{{ $item->name }}</td>
                                                     <td>
                                                         
@@ -67,7 +67,7 @@
                                                                 ( <span class="clock" data-countdown="{{ $item->discount_end }}"></span> )
                                                             </span>
                                                         @else
-                                                        <b>৳ {{ $item->price }}</b>
+                                                            <b>৳ {{ $item->price }}</b>
                                                         @endif
                                                     </td>
                                                     <td>
